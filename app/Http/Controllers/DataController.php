@@ -7,6 +7,15 @@ use App\Posts;
 
 class DataController extends Controller
 {
+
+    public function index() {
+
+        $data = Posts::all();
+        return view ('landing', ['posts' => $data]);
+
+    }
+
+
     public function create() {
 
         return view('create');
@@ -22,7 +31,7 @@ class DataController extends Controller
         $a->text = $validatedData['data'];
         $a->save();
         session()->flash('message', 'Data entered.');
-        return redirect()->route('data.create');
+        return redirect()->route('data.index');
 
     }
 }
