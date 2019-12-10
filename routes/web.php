@@ -12,13 +12,17 @@
 */
 
 Route::get('/', function () {
-    return view('landing');
+    return view('landing', ['name' => "unknown user"]);
 });
 
-Route::get ('/enter', function() {
-    return view ('enter');
-});
 
+Route::get('create', 'DataController@create')->name('data.create');
+
+Route::post('create', 'DataController@store')->name('data.store');
+
+Route::get('/{name}', function ($name) {
+    return view('landing', ['name' => $name]);
+});
 Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');

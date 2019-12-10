@@ -13,14 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        $faker = Faker::create();
-        foreach (range(1,1000000) as $index) {
-            DB::table('users')->insert([
-                'username' => $faker->name,
-                'email' => $faker->email,
-                'password' => bcrypt('secret'),
-            ]);
-        }
+       
+        $this->call([
+            UsersTableSeeder::class,
+            ImageTableSeeder::class,
+            LogTableSeeder::class,
+            ReplyTableSeeder::class
+        ]);
     }
 }
