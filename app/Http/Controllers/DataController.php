@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Posts;
+use Auth;
 
 class DataController extends Controller
 {
@@ -29,6 +30,7 @@ class DataController extends Controller
 
         $a = new Posts;
         $a->text = $validatedData['data'];
+        $a->poster = Auth::user()->name;
         $a->save();
         session()->flash('message', 'Data entered.');
         return redirect()->route('data.index');

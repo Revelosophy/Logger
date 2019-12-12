@@ -11,12 +11,18 @@
 |
 */
 
-Route::get('create', 'DataController@create')->name('data.create');
+Route::get('create', 'DataController@create')->name('data.create')->middleware('auth');
 
-Route::post('create', 'DataController@store')->name('data.store');
+Route::post('create', 'DataController@store')->name('data.store')->middleware('auth');
 
-Route::get('/', 'DataController@index')->name ('data.index');
+Route::get('/', 'DataController@index')->name ('data.index')->middleware('auth');
+
+Route::get('/logout', 'Auth\LoginController@logout');
 
 Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
