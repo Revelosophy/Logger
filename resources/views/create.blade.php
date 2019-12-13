@@ -1,11 +1,9 @@
-@extends('layouts.template')
-@section('title')
-    <h1>Create a post</h1>
-@endsection
+@extends('layouts.app')
 @section('content')
-    <form method="POST" action="{{ route('data.store') }}">
+    <h1>Create a post</h1>
+    <form method="POST" action="{{ route('post.store') }}">
         @csrf
-        <p>Data: <input type ="text" name="data"></p>
+        <p><input type ="text" name="data"></p>
         <input type="submit" value="Submit">
     </form>
 @endsection

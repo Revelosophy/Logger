@@ -11,11 +11,13 @@
 |
 */
 
-Route::get('create', 'DataController@create')->name('data.create')->middleware('auth');
+Route::get('create', 'PostController@create')->name('post.create')->middleware('auth');
 
-Route::post('create', 'DataController@store')->name('data.store')->middleware('auth');
+Route::post('create', 'PostController@store')->name('post.store')->middleware('auth');
 
-Route::get('/', 'DataController@index')->name ('data.index')->middleware('auth');
+Route::get('/', 'PostController@index')->name('post.index')->middleware('auth');
+
+Route::post('/', 'ReplyController@store')->name('reply.store')->middleware('auth');
 
 Route::get('/logout', 'Auth\LoginController@logout');
 

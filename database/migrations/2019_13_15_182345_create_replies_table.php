@@ -14,12 +14,14 @@ class CreateRepliesTable extends Migration
     public function up()
     {
         Schema::create('replies', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
+            $table->bigIncrements('id');
             $table->string('text');
             $table->integer('likes')->unsigned();
             $table->timestamp('created_at')->useCurrent();
-            $table->integer('author_id')->unsigned();
-            $table->integer('target_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('post_id')->unsigned();
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
         });
 
         

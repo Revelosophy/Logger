@@ -39,8 +39,8 @@ class User extends Authenticatable
 
     public $timestamps = false;
 
-    public function logs(){
-        return $this->hasMany('App\Logs');
+    public function posts(){
+        return $this->hasMany('App\Post');
     }   
     
     public function image(){
@@ -48,7 +48,7 @@ class User extends Authenticatable
     }
 
     public function replies(){
-        return $this->hasMany('App\Replies');
+        return $this->hasMany('App\Reply');
     }
 
 }

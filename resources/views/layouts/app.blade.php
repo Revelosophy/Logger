@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    <style>
+        #content {
+            margin-right: 150px;
+            margin-left: 80px;
+            background-image: url("https://unsplash.com/photos/tNmRKvD-hl8");
+        }
+    </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -71,7 +78,7 @@
             </div>
         </nav>
 
-        <main class="py-3">    
+        <main class="py-4" id="content">    
             @yield('content')
         </main>
     </div>

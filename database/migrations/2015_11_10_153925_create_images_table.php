@@ -14,7 +14,7 @@ class CreateImagesTable extends Migration
     public function up()
     {
         Schema::create('images', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
+            $table->bigIncrements('id');
             $table->timestamp('created_at')->useCurrent();
             $table->string('link')->unique();
             $table->unsignedInteger('posted_by_id');

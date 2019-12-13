@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Posts;
+use App\Post;
 use Auth;
 
-class DataController extends Controller
+class PostController extends Controller
 {
 
     public function index() {
 
-        $data = Posts::all();
+        $data = Post::all();
         return view ('landing', ['posts' => $data]);
 
     }
@@ -28,7 +28,7 @@ class DataController extends Controller
             'data' => 'required|max:255'
         ]);
 
-        $a = new Posts;
+        $a = new Post;
         $a->text = $validatedData['data'];
         $a->poster = Auth::user()->name;
         $a->save();
