@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Intervention\Image\ImageManagerStatic as Intervention;
 use Illuminate\Http\Request;
 use App\Post;
+use App\Image;
 use Auth;
+use Storage;
 
 class PostController extends Controller
 {
 
     public function index() {
 
-        $data = Post::all();
+        $data = Post::paginate(5);
         return view ('landing', ['posts' => $data]);
 
     }
@@ -25,15 +28,37 @@ class PostController extends Controller
     public function store(Request $request) {
 
         $validatedData = $request->validate([
-            'data' => 'required|max:255'
+            'text' => 'required|max:255',
+            'image' => 'sometimes|image|mimes:jpg,jpeg,bmp,svg,png'
         ]);
+        
+        $newPost = new Post;
+        $newPost->text = $validatedData['text'];
+        $newPost->poster = Auth::user()->name;
+    
 
-        $a = new Post;
-        $a->text = $validatedData['data'];
-        $a->poster = Auth::user()->name;
-        $a->save();
+        if($request['image']) {
+
+            $imageName = time().'.'.$request->image->extension();
+            $newImage = new Image;
+            $newImage->link = '/images/' . $imageName;
+            $newImage->uploader_id = Auth::user()->id;
+            $newImage->size = $request->image->getSize();
+            $newImage->save();
+            
+            $image_file = $request->file('image');
+            $image_resize = Intervention::make($image_file->getRealPath());
+            $image_resize->resize(750, 470);
+            $image_resize->save(public_path('/images/') . $imageName);
+
+            // $request->image->move(public_path('images'), $imageName);
+            $newPost->image_id = $newImage->id;
+        }
+
+        $newPost->save();
+
+
         session()->flash('message', 'Data entered.');
-        return redirect()->route('data.index');
-
+        return redirect()->route('post.index');
     }
 }

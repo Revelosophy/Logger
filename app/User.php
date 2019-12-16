@@ -44,7 +44,7 @@ class User extends Authenticatable
     }   
     
     public function image(){
-        return $this->belongsTo('App\Images');
+        return $this->belongsTo('App\Image');
     }
 
     public function replies(){

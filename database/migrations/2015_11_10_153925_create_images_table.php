@@ -17,7 +17,9 @@ class CreateImagesTable extends Migration
             $table->bigIncrements('id');
             $table->timestamp('created_at')->useCurrent();
             $table->string('link')->unique();
-            $table->unsignedInteger('posted_by_id');
+            $table->bigInteger('uploader_id')->unsigned();
+            $table->foreign('uploader_id')->references('id')->on('users')->onDelete('cascade');
+
         });
     }
 

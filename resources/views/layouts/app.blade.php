@@ -4,10 +4,10 @@
     <style>
         #content {
             margin-right: 150px;
-            margin-left: 80px;
-            background-image: url("https://unsplash.com/photos/tNmRKvD-hl8");
+            margin-left: 150px;
         }
     </style>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 

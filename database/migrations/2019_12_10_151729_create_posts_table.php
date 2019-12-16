@@ -18,6 +18,10 @@ class CreatePostsTable extends Migration
             $table->timestamps();
             $table->string('text');
             $table->string('poster');
+            $table->bigInteger('image_id')->unsigned()->nullable();
+            $table->foreign('image_id')->references('id')->on('images')->onDelete('cascade');
+
+
         });
     }
 
