@@ -19,6 +19,9 @@ class CreateImagesTable extends Migration
             $table->string('link')->unique();
             $table->bigInteger('uploader_id')->unsigned();
             $table->foreign('uploader_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->bigInteger('post_id')->unisgned();
+            // $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->integer('size');
 
         });
     }

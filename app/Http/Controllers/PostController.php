@@ -35,6 +35,7 @@ class PostController extends Controller
         $newPost = new Post;
         $newPost->text = $validatedData['text'];
         $newPost->poster = Auth::user()->name;
+        $newPost->poster_id = Auth::user()->id;
     
 
         if($request['image']) {
@@ -56,9 +57,21 @@ class PostController extends Controller
         }
 
         $newPost->save();
+        
+        return redirect()->route('post.index')->with('message', 'Post created!');
 
-
-        session()->flash('message', 'Data entered.');
-        return redirect()->route('post.index');
     }
+
+    public function destroy(Request $request) {
+        
+        $post = Post::findorFail($request->post_id);
+        $this->authorize('delete', $post);
+        $post->delete();
+
+        return redirect()->route('post.index')->with('message', 'Post deleted!');
+
+
+    }
+
+
 }

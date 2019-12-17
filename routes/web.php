@@ -10,14 +10,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', 'PostController@index')->name('post.index')->middleware('auth');
 
 Route::get('create', 'PostController@create')->name('post.create')->middleware('auth');
 
 Route::post('create', 'PostController@store')->name('post.store')->middleware('auth');
 
-Route::get('/', 'PostController@index')->name('post.index')->middleware('auth');
-
 Route::post('/', 'ReplyController@store')->name('reply.store')->middleware('auth');
+
+Route::delete('/delete','PostController@destroy')->name('post.delete')->middleware('auth');
+
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
