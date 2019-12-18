@@ -18,7 +18,16 @@ Route::post('create', 'PostController@store')->name('post.store')->middleware('a
 
 Route::post('/', 'ReplyController@store')->name('reply.store')->middleware('auth');
 
-Route::delete('/delete','PostController@destroy')->name('post.delete')->middleware('auth');
+Route::delete('delete','PostController@destroy')->name('post.delete')->middleware('auth');
+
+Route::get('edit', 'PostController@edit')->name('post.edit')->middleware('auth');
+
+Route::post('edit', 'PostController@update')->name('post.update')->middleware('auth');
+
+Route::get('comment_edit', 'ReplyController@edit')->name('reply.edit')->middleware('auth');
+
+Route::post('comment_edit', 'ReplyController@update')->name('reply.update')->middleware('auth');
+
 
 
 Route::get('/logout', 'Auth\LoginController@logout');

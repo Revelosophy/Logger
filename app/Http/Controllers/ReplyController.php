@@ -2,101 +2,78 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Reply;
 use App\Post;
 use Auth;
-use Illuminate\Http\Request;
+use Storage;
 
 class ReplyController extends Controller
 {
 
     public function __construct() {
         $this->middleware('auth');
+
     }
 
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
+
+        $validatedData = $request->validate([
+            'text' => 'required|max:255',
+        ]);
+
         $post = Post::findorFail($request->post_id);
 
         $reply = new Reply;
-
         $reply->text = $request->text;
         $reply->user_id = Auth::id();
         $reply->post_id = $post->id;
         $reply->likes = 0;
         $reply->save();
 
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->with('message','Reply posted!');
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Reply  $Reply
-     * @return \Illuminate\Http\Response
-     */
+   
     public function show(Reply $Reply)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Reply  $Reply
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Reply $Reply)
+
+    public function edit(Request $request)
     {
-        //
+        $reply = Reply::findorFail($request->reply_id);
+        $this->authorize('update', $reply);
+        return view('comment_edit', ['reply'=>$reply]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Reply  $Reply
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Reply $Reply)
+
+    public function update(Request $request)
     {
-        //
+        $reply = Reply::findorFail($request->reply_id);
+        $this->authorize('update', $reply);
+        $reply->text = $request->new_reply;
+        $reply->save();
+        return redirect()->route('post.index')->with('message', 'Reply updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Reply  $Reply
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy(Reply $Reply)
     {
         //

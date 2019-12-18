@@ -41,23 +41,17 @@ class PostController extends Controller
         if($request['image']) {
 
             $imageName = time().'.'.$request->image->extension();
-            $newImage = new Image;
-            $newImage->link = '/images/' . $imageName;
-            $newImage->uploader_id = Auth::user()->id;
-            $newImage->size = $request->image->getSize();
-            $newImage->save();
-            
+            $newPost->image_link = $imageName;
             $image_file = $request->file('image');
             $image_resize = Intervention::make($image_file->getRealPath());
             $image_resize->resize(750, 470);
             $image_resize->save(public_path('/images/') . $imageName);
 
             // $request->image->move(public_path('images'), $imageName);
-            $newPost->image_id = $newImage->id;
         }
 
         $newPost->save();
-        
+
         return redirect()->route('post.index')->with('message', 'Post created!');
 
     }
@@ -69,9 +63,21 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('post.index')->with('message', 'Post deleted!');
+    }
 
-
+    public function edit(Request $request) {
+        $post = Post::findorFail($request->post_id);
+        $this->authorize('update', $post);
+        return view('edit', ['post'=>$post]);
     }
 
 
+    public function update(Request $request) {
+        $post = Post::findorFail($request->post_id);
+        $this->authorize('update', $post);
+        $post->text = $request->new_post;
+        $post->save();
+        return redirect()->route('post.index')->with('message', 'Post updated!');
+
+    }
 }
