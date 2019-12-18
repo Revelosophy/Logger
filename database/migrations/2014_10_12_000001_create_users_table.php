@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('email');
             $table->string('profile_image')->unique()->nullable();
+            $table->boolean('is_admin')->nullable();
             $table->rememberToken();
         });
     }

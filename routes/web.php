@@ -12,6 +12,8 @@
 */
 Route::get('/', 'PostController@index')->name('post.index')->middleware('auth');
 
+Route::get('admin', 'PostController@index')->name('admin.index')->middleware('is_admin');
+
 Route::get('create', 'PostController@create')->name('post.create')->middleware('auth');
 
 Route::post('create', 'PostController@store')->name('post.store')->middleware('auth');

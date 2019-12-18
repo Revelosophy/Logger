@@ -52,8 +52,12 @@ class PostPolicy
      * @return mixed
      */
     public function update(User $user, Post $post)
-    {
-        return $user->id == $post->poster_id;
+    {   
+        if ($user->is_admin == true) {
+            return true;
+        }
+
+        return $user->id == $post->user_id;
     }
 
     /**
@@ -65,7 +69,11 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $user->id === $post->poster_id;
+        if ($user->is_admin == true) {
+            return true;
+        }
+
+        return $user->id === $post->user_id;
     }
 
     /**

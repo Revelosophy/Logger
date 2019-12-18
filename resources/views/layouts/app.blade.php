@@ -3,8 +3,8 @@
 <head>
     <style>
         #content {
-            margin-right: 150px;
-            margin-left: 150px;
+            margin-right: 100px;
+            margin-left: 100px;
         }
     </style>
 
@@ -67,6 +67,9 @@
                             </div>
 
                             <div class="nav-item">
+                                @if  (Auth::user()->is_admin == 1)
+                                    <button class="btn btn-warning" disabled>Admin</button>
+                                @endif
                                 <button type="button" class="btn btn-danger" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</button>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf

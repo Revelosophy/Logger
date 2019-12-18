@@ -7,12 +7,20 @@
         </div>
 @endif
 
-<div class="card bg-dark text-white" style="padding:80px;">
+<div class="card bg-info text-black" style="padding:50px;">
     <h2>Welcome back, {{Auth::user()->name}}!</h2>
+    <h3>You have {{ count(Auth::user()->posts) }} post(s)</h3>
+    <h3> You've replied {{ count(Auth::user()->replies) }} time(s)</h3>
 </div>
 
+<!-- <a role="button" class="btn btn-warning btn-lg btn-block" style="margin:20px;" href="{{route('post.create')}}">Create a post</a> -->
+<button type="button" class="btn btn-primary tn-lg btn-block" data-toggle="modal" data-target="#exampleModal" style="margin-top:20px; padding: 10px">
+  Create a post
+</button>
+
+
 @foreach ($posts as $post)
-<div class="card border-dark text-dark bg-secondary" style="margin:20px;">
+<div class="card border-dark" style="margin:20px;">
     <div class="card border-dark text-dark" style="margin:20px;">
         <h5 class="card-header bg-dark text-white">Posted by {{$post->poster}} at {{$post->created_at}}</h5> 
         
@@ -34,7 +42,7 @@
                 <input type="submit" class="btn btn-outline-dark" value="Reply to {{$post->poster}}"></input>
             </div>
         </form>
-
+        <span>
         @can('delete', $post)
         <form class="text-right" style="margin:10px;" method="POST" action="{{route ('post.delete') }}">
             @csrf
@@ -51,6 +59,8 @@
             <input type="submit" class="btn btn-outline-dark" value="Edit"></input>
         </form>
         @endcan
+
+        </span>
     
     </div>
 
@@ -73,7 +83,35 @@
     @endforeach
 </div>
 
+
 @endforeach 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create a post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{{ route('post.store') }}" enctype="multipart/form-data">
+            @csrf
+            <p><input type ="text" name="text"></p>
+            <p>You can also upload an image</p>
+            <p><input type="file" name="image"></p>
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-primary" value="Create post"></input>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
 {{ $posts->links() }}
-<a href="{{route('post.create')}}">Create post</a> 
+<!-- <a href="{{route('post.create')}}">Create post</a>  -->
+
 @endsection

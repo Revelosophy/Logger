@@ -35,7 +35,7 @@ class PostController extends Controller
         $newPost = new Post;
         $newPost->text = $validatedData['text'];
         $newPost->poster = Auth::user()->name;
-        $newPost->poster_id = Auth::user()->id;
+        $newPost->user_id = Auth::user()->id;
     
 
         if($request['image']) {
