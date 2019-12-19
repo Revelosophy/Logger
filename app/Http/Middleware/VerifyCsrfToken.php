@@ -21,4 +21,13 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         //
     ];
+
+    public function tokensMatch($request) {
+        $token = $request->ajax() ? $request->header('X-CSRF-Token') : $request->input('_token');
+
+        return $request->session()->token() == $token;
+    }
+
+
+
 }

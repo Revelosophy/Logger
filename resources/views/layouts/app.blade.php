@@ -18,6 +18,10 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -59,9 +63,7 @@
                                         {{ "Hello, " . Auth::user()->name }} <span class="caret"></span></a>
 
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" href="#">Posts</a>
                                         <a class="dropdown-item" href="#">Profile</a>
-                                        <a class="dropdown-item" href="#">Friends</a>
                                     </div>
                                 </div>
                             </div>
@@ -85,8 +87,51 @@
             @yield('content')
         </main>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 </body>
+
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $(document).on("submit", '#postreply', function(e) {
+
+        e.preventDefault();
+
+        var thisForm = this;
+
+        var data = $(this).serializeArray();
+        var token = data[0].value;
+        var text = data[1].value;
+        var postID = data[2].value;
+
+        $.ajax({
+            type: "POST",
+            url: "AJAX",
+            data: {text: text, post_id: postID},
+            success: function(data) {
+                console.log(data.created_at);
+                var newReply = $(thisForm).parent().parent()
+                console.log(data.user_id);
+
+                $(newReply).append(`
+                <div class="card border-dark mb-3 text-dark" style="max-width:50%; margin:20px;">
+                    <div class="card-header">New Reply</div>
+                    <div class="card-body">
+                        ` + text + `
+                            <form class="text-right" style="margin:10px;" method="GET" action="{{route ('reply.edit') }}">
+                            @csrf
+                            <input type="hidden" name="reply_id" value="` + data.id + `">
+                            <input type="submit" class="btn btn-outline-dark" value="Edit"></input>
+                            </form>
+                    </div>
+                </div>`
+                );
+            }
+        })
+    });
+</script>
+
 </html>

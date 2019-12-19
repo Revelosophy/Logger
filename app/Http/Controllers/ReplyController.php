@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Reply;
 use App\Post;
 use Auth;
@@ -15,19 +16,6 @@ class ReplyController extends Controller
         $this->middleware('auth');
 
     }
-
-
-    public function index()
-    {
-        //
-    }
-
-
-    public function create()
-    {
-        //
-    }
-
    
     public function store(Request $request)
     {
@@ -45,14 +33,11 @@ class ReplyController extends Controller
         $reply->likes = 0;
         $reply->save();
 
-        return redirect()->route('post.index')->with('message','Reply posted!');
+        $replyResponse = Reply::findorFail($reply->id);
 
-    }
-
-   
-    public function show(Reply $Reply)
-    {
-        //
+        if ($request->ajax()) {
+            return $replyResponse;
+        }
     }
 
 
@@ -73,9 +58,12 @@ class ReplyController extends Controller
         return redirect()->route('post.index')->with('message', 'Reply updated!');
     }
 
-   
-    public function destroy(Reply $Reply)
-    {
-        //
+    public function delete(Request $request) {
+        $reply = Reply::findorFail($request->reply_id);
+        $this->authorize('delete', $reply);
+        $reply->delete();
+
+        return redirect()->route('post.index')->with('message', 'Reply deleted!');
+
     }
 }
