@@ -66,12 +66,6 @@
 
                             <div class="col-md-6">
                                 <input id="admin-password" type="text" class="form-control" name="admin-password">
-
-                                @error('admin-password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
                         </div>
 

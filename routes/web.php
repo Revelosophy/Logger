@@ -11,9 +11,13 @@
 |
 */
 
+Route::post('AJAX','ReplyController@store')->middleware('auth');
+
 Route::get('/', 'PostController@index')->name('post.index')->middleware('auth');
 
-Route::get('admin', 'PostController@index')->name('admin.index')->middleware('is_admin');
+Route::get('admin', 'UserController@Index')->name('admin.index')->middleware('is_admin');
+
+Route::delete('admin/delete/', 'UserController@destroy')->name('user.delete')->middleware('is_admin');
 
 // Route::get('create', 'PostController@create')->name('post.create')->middleware('auth');
 

@@ -16,7 +16,7 @@
                 @csrf
                 <input type="hidden" name="post_id" value="{{ $post->id }}">
                 <textarea class="from-control form-control-lg" name="new_post" rows="2" style="width:100%;">{{$post->text}}</textarea>
-                <input type="submit" class="btn btn-outline-dark" value="Save Chnages"></input>
+                <input type="submit" class="btn btn-outline-dark" value="Save Chanages"></input>
             </div>
         </form>
     </div>

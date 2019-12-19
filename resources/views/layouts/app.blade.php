@@ -59,20 +59,16 @@
                         @else
                             <div class="nav-item">
                                 <div class="dropdown show">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ "Hello, " . Auth::user()->name }} <span class="caret"></span></a>
-
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" href="#">Profile</a>
-                                    </div>
+                                    <a class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ "Hello, " . Auth::user()->name }} <span style="padding:10px;"></span></a>
                                 </div>
                             </div>
 
                             <div class="nav-item">
                                 @if  (Auth::user()->is_admin == 1)
-                                    <button class="btn btn-warning" disabled>Admin</button>
+                                    <a class="btn btn-warning" href="{{ url('admin') }}" role="button">Admin</a>
                                 @endif
-                                <button type="button" class="btn btn-danger" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</button>
+                                <button role="button" class="btn btn-danger" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</button>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                 </form>
@@ -103,6 +99,7 @@
         var thisForm = this;
 
         var data = $(this).serializeArray();
+        console.log(data);
         var token = data[0].value;
         var text = data[1].value;
         var postID = data[2].value;

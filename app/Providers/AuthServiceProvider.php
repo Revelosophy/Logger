@@ -6,6 +6,7 @@ use App\Post;
 use App\Reply;
 use App\Policies\PostPolicy;
 use App\Policies\ReplyPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -19,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Post::class => PostPolicy::class,
         Reply::class => ReplyPolicy::class,
+        User::class => UserPolicies::class,
     ];
 
     /**
