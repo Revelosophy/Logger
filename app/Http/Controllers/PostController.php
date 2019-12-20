@@ -31,7 +31,7 @@ class PostController extends Controller
             'text' => 'required|max:255',
             'image' => 'sometimes|image|mimes:jpg,jpeg,bmp,svg,png'
         ]);
-        
+                 
         $newPost = new Post;
         $newPost->text = $validatedData['text'];
         $newPost->poster = Auth::user()->name;

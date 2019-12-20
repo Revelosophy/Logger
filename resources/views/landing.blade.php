@@ -7,6 +7,22 @@
         </div>
 @endif
 
+@if (Session::has('post_error'))
+        <div class="alert alert-danger">
+            {{ Session::get('post_error') }}
+        </div>
+@endif
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <div class="card bg-info text-black" style="padding:50px;">
     <h2>Welcome back, {{Auth::user()->name}}!</h2>
     @if  (Auth::user()->is_admin == 1)
